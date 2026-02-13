@@ -12,6 +12,10 @@ from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 # Load API Key
 load_dotenv()
 
+if not os.getenv("GOOGLE_API_KEY"):
+    os.environ["GOOGLE_API_KEY"] = st.secrets.get("GOOGLE_API_KEY", "")
+```
+
 st.set_page_config(page_title="Document Assistant", page_icon="🤖")
 st.title("🤖 Knowledge Base Assistant")
 
