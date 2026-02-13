@@ -1,8 +1,11 @@
 import os
 import streamlit as st
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from dotenv import load_dotenv
+from pydantic import SecretStr
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai import ChatOpenAI
 from langchain_chroma import Chroma
-from langchain_classic.retrievers import EnsembleRetriever
+from langchain_classic.retrievers import EnsembleRetriever #this line is giving me an error!!!
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -16,6 +19,8 @@ except ImportError:
 
 if not os.getenv("GOOGLE_API_KEY"):
     os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY") or st.secrets.get("OPENROUTER_API_KEY", "")
 
 st.set_page_config(page_title="Document Assistant", page_icon="🤖")
 st.title("🤖 Knowledge Base Assistant")
@@ -65,9 +70,11 @@ else:
     # Fallback if DB is empty
     retriever = semantic_retriever
 
-# 2. Model
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
+
+llm = ChatOpenAI(
+    model="openrouter/aurora-alpha",
+    api_key=SecretStr(OPENROUTER_API_KEY),
+    base_url="https://openrouter.ai/api/v1",
     temperature=0,
     max_retries=2
 )
