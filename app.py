@@ -17,8 +17,8 @@ try:
 except ImportError:
     pass
 
-if not os.getenv("GOOGLE_API_KEY"):
-    os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
+#if not os.getenv("GOOGLE_API_KEY"):
+ #   os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY") or st.secrets.get("OPENROUTER_API_KEY", "")
 
