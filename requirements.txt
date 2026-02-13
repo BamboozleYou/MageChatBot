@@ -6,3 +6,4 @@ langchain-google-genai
 langchain-chroma
 chromadb
 rank_bm25
+langchain-openai
